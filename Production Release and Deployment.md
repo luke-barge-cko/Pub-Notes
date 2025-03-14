@@ -1,6 +1,6 @@
 ## Release
 1. 
-2. ![[Screenshot 2025-03-11 at 18.17.37.png]]
+2. ![fix-version.png](fix-version.png)
 	1. In your Jira task find the the Fix versions field.
 		1. N.B if you the '+ Create new version' is not present, ask someone on your team to add you to the relevent jira group of your team
 		2. The name of the fix version should correspond to the git tag version of your release
