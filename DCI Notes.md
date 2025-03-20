@@ -129,6 +129,8 @@ graph TD
 
 
 
+
+
 ## Release and Deployment
 ## Release
 1. 
@@ -144,3 +146,16 @@ graph TD
 				1. Product Team: Card Processing
 				2. Product Approver: ...
 				3. QA Approver: Yourself
+
+
+
+- @Properties.MessageType:(1814 OR 1804)
+- service:"Discover Ecommerce Api" env:production 
+
+
+- https://app.datadoghq.com/logs?query=service%3A%22Discover%20Ecommerce%20Api%22%20env%3Aproduction&agg_m=count&agg_m_source=base&agg_t=count&cols=%40Properties.GatewayAuthorizeResponse.Approved%2C%40Properties.BridgeAuthorizeRequest.DF47_13_CustomerIp%2C%40Properties.BridgeAuthorizeRequest.DF47_2_CustomerEmail%2C%40Properties.BridgeAuthorizeRequest.DF63_5_CardMemberFirstName%2C%40Properties.BridgeAuthorizeRequest.DF63_6_CardMemberLastName%2C%40Properties.BridgeAuthorizeRequest.DF63_7_CardMemberBillingPhoneNumber%2C%40Properties.BridgeAuthorizeRequest.DF63_12_ShipToPhoneNumber%2C%40Properties.BridgeAuthorizeRequest.DF63_13_ShipToCountryCode%2C%40Properties.BridgeAuthorizeRequest.DF63_8_ShipToPostalCode%2C%40Properties.BridgeAuthorizeRequest.DF63_9_ShiptoAddress%2C%40Properties.GatewayAuthorizeResponse.SchemeTransactionId&fromUser=true&messageDisplay=inline&refresh_mode=sliding&saved-view-id=1655584&storage=hot&stream_sort=pool%2Casc&viz=stream&from_ts=1742122998969&to_ts=1742382198968&live=true
+
+- https://app.datadoghq.com/logs?query=&agg_m=count&agg_m_source=base&agg_t=count&cols=host%2Cservice&fromUser=true&messageDisplay=inline&refresh_mode=sliding&storage=hot&stream_sort=desc&viz=stream&from_ts=1742385175939&to_ts=1742386075939&live=true
+- https://github.com/cko-card-processing/discover-ecommerce-api/actions/workflows/run_mocha_tests.yml
+- Known issue
+	- Could not retrieve transaction using "815017549643658" for transaction with "pay_mp7yhzvbzyye5keutwbgqxeuom" "54dd4134-aea5-4f84-bb8a-c6976e01be4d"
