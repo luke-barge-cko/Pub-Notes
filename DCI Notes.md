@@ -118,44 +118,27 @@ graph TD
 ```
 
 
-## DCI Clearing
+## Release 
+1. In your Jira task find the the Fix versions field.
+	- **N.B** if the '+ Create new version' is not present, ask someone on your team to add you to the relevant Jira group of your team
+	- ![fix-version.png](fix-version.png)
 
-- https://checkout.atlassian.net/wiki/spaces/~712020657b20c33e4c4515942b2c0261ea5ae1/pages/6966837570/WIP+Mermaid+diagram+for+DCI+Clearing+capture
-- https://checkout.atlassian.net/wiki/spaces/CN/pages/6382026766/DCI+Clearing+OC+Runbook
+		- The name of the fix version should correspond to the git tag version of your release
+			
+2. Select a start and end date for your release. This should be for when you want to deploy
+	![create-version.png](create-version.png)
+	- This will create a task on this release [board](https://checkout.atlassian.net/jira/software/c/projects/RELEASE/boards/122?assignee=5db6c0fd8704ba0dab23e23e&assignee=unassigned&assignee=712020%3A0f1be2c5-9b9b-4e90-9d75-2536f1306a27)
 
-![[Pasted image 20250314212353.png]]
-
-
-
-
-
-
-
-## Release and Deployment
-## Release
-1. 
-2. ![fix-version.png](fix-version.png)
-	1. In your Jira task find the the Fix versions field.
-		1. N.B if you the '+ Create new version' is not present, ask someone on your team to add you to the relevent jira group of your team
-		2. The name of the fix version should correspond to the git tag version of your release
-		3. ![[Screenshot 2025-03-11 at 18.20.25.png]]
-		4. Select a start and end date for your release. This should be for when you want to deploy
-		5. This will create a task on this release [board](https://checkout.atlassian.net/jira/software/c/projects/RELEASE/boards/122?assignee=5db6c0fd8704ba0dab23e23e&assignee=unassigned&assignee=712020%3A0f1be2c5-9b9b-4e90-9d75-2536f1306a27)
-		6. ![[Screenshot 2025-03-11 at 18.27.25.png]]
-			1. click on this ticket and find the details. You will need to select:
-				1. Product Team: Card Processing
-				2. Product Approver: ...
-				3. QA Approver: Yourself
-
-
-
-- @Properties.MessageType:(1814 OR 1804)
-- service:"Discover Ecommerce Api" env:production 
-
-
-- https://app.datadoghq.com/logs?query=service%3A%22Discover%20Ecommerce%20Api%22%20env%3Aproduction&agg_m=count&agg_m_source=base&agg_t=count&cols=%40Properties.GatewayAuthorizeResponse.Approved%2C%40Properties.BridgeAuthorizeRequest.DF47_13_CustomerIp%2C%40Properties.BridgeAuthorizeRequest.DF47_2_CustomerEmail%2C%40Properties.BridgeAuthorizeRequest.DF63_5_CardMemberFirstName%2C%40Properties.BridgeAuthorizeRequest.DF63_6_CardMemberLastName%2C%40Properties.BridgeAuthorizeRequest.DF63_7_CardMemberBillingPhoneNumber%2C%40Properties.BridgeAuthorizeRequest.DF63_12_ShipToPhoneNumber%2C%40Properties.BridgeAuthorizeRequest.DF63_13_ShipToCountryCode%2C%40Properties.BridgeAuthorizeRequest.DF63_8_ShipToPostalCode%2C%40Properties.BridgeAuthorizeRequest.DF63_9_ShiptoAddress%2C%40Properties.GatewayAuthorizeResponse.SchemeTransactionId&fromUser=true&messageDisplay=inline&refresh_mode=sliding&saved-view-id=1655584&storage=hot&stream_sort=pool%2Casc&viz=stream&from_ts=1742122998969&to_ts=1742382198968&live=true
-
-- https://app.datadoghq.com/logs?query=&agg_m=count&agg_m_source=base&agg_t=count&cols=host%2Cservice&fromUser=true&messageDisplay=inline&refresh_mode=sliding&storage=hot&stream_sort=desc&viz=stream&from_ts=1742385175939&to_ts=1742386075939&live=true
-- https://github.com/cko-card-processing/discover-ecommerce-api/actions/workflows/run_mocha_tests.yml
-- Known issue
-	- Could not retrieve transaction using "815017549643658" for transaction with "pay_mp7yhzvbzyye5keutwbgqxeuom" "54dd4134-aea5-4f84-bb8a-c6976e01be4d"
+3. click on this ticket and find the details. You will need to select:
+				1. *Product Team*: Card Processing (Not Card Processing London)
+				2. *Product Approver*: Member of your team 
+				3. *Engineering Approver*: *Your Manager*
+				4. *QA Approver*: *Yourself*
+				5. Data Impact: *Determine if  CHD / PII / GDPR is impact*
+	![approvals.png](approvals.png)
+4. Move ticket to review
+5. Chase your approvals
+6. Move ticket to `Ready for production`
+7. Once it has been moved to `Ready for production`, there will be an automated slack message here https://checkout.enterprise.slack.com/archives/CEFCTS2N5. 
+	1. Comment in there verify if the time you want to deploy is good with the operations team
+	  ![thread.png](thread.png)
