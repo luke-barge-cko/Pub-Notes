@@ -21,16 +21,26 @@
 	- It is my opinion that we should not be responsible for the data in this snowflake as it has nothing to do with us.
 
 ### Solution
-- Change the stored procedures in [repository](https://github.com/cko-card-processing/checkout-tpp-db/tree/develop/TPP/INTEGRATION/dci) to stop writing card number to the card number fields
-- Remove the PAN data from the outgoing tables in the integration db
+- Change the stored procedures in [repository](https://github.com/cko-card-processing/checkout-tpp-db/tree/develop/TPP/INTEGRATION/dci) 
+	- Stop writing card number to the card number fields
+		- Possible problems with unknown stakeholders consuming a value and and it being NULL
+	- Write masked version of the card numbers
+		- More difficult
+- Remove the PAN data from the incoming tables in the integration db
 	1. Drop the tables and remake with default null (or empty string)
+		- Possible problems with unknown stakeholders consuming a value and and it being `NULL`
 	2. Update each record with null (or empty string)
+		- Possible problems with unknown stakeholders consuming a value and and it being `NULL`
 		- This may not work with other schemes because the number of rows is so large that such a query could be problematic
 			- Large growth in transaction log (LDF file)
 			- Time consuming
 			- Tie up database resources and lead to various performance problems.
 		- This may not be too much of an issue for us the DCI has a lot fewer transaction than the other schemes
-			- We need to look at how rows there are that need to be changed to determine if this is feasible
+			- We need to look at how rows there are that need to be changed to determine if this is feasible DCI
+	3. Update the records with a masked version of the card number
+		- We need to look at how rows there are that need to be changed to determine if this is feasible DCI
+		- More difficult
+
 ### FYIs
 - There is no TTL on the tables in integration DB post Aug 2023
 	
