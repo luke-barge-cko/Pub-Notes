@@ -13,9 +13,15 @@
 	- We can then use the same file-sync to upload outgoing files to DCI
 2. If you need the files now, you can start downloading them from the 'archive' directory.  **(suggested)**
 	- We will need to allow that file system to be available as a networked file server. 
+		- *Talking to Sandy, this is not something that can be feasibly be achieved with the current setup because*
+			- The Volume block can only be attached to one instance at a time
+			- A type of file system like that will need to be built
 	- We will still eventually need to implement file-sync to replace the legacy sftp downloader.
 3. If there is an issue with downloading files twice (should not be) and you want to use file-sync now, you can replace legacy settlement sftp download with file-sync. 
-	- We will need to allow that file system to be available as a networked file server. 
+	- We will need to allow that file system to be available as a networked file server.
+		- *Talking to Sandy, this is not something that can be feasibly be achieved with the current setup*
+			- *The Volume block can only be attached to one instance at a time*
+			- *A type of file system like that will need to be built*
 	- Your new settlement loader would then need to download them from that file system. 
 	- When you are happy that the new settlement loader is working, then you can start downloading files onto an S3 Bucket instead of the file system.
 	- Can deploy on the same server as current Legacy Settlement to avoid IP whitelisting issues, or get another IP address whitelisted from DCI 
