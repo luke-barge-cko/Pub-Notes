@@ -1,4 +1,3 @@
-
 ### Legacy Settlement Current
 
 1. Downloaded files are stored directly in an archive directory
@@ -8,22 +7,20 @@
 5. The database keeps track of processed files to avoid re-processing
 6. The original files remain on the SFTP server (no deletion from this service). So there does not seem like there should be any issues downloading the file twice
 ### Options
-1. In parallel, implement file-sync to download files onto an S3 bucket.
-	- Can deploy on the same server as current Legacy Settlement to avoid IP whitelisting issues, or get another IP address whitelisted from DCI 
-	- We can then use the same file-sync to upload outgoing files to DCI
-2. If you need the files now, you can start downloading them from the 'archive' directory.  **(suggested)**
-	- We will need to allow that file system to be available as a networked file server. 
-		- *Talking to Sandy, this is not something that can be feasibly be achieved with the current setup because*
-			- The Volume block can only be attached to one instance at a time
-			- A type of file system like that will need to be built
-	- We will still eventually need to implement file-sync to replace the legacy sftp downloader.
-3. If there is an issue with downloading files twice (should not be) and you want to use file-sync now, you can replace legacy settlement sftp download with file-sync. 
-	- We will need to allow that file system to be available as a networked file server.
-		- *Talking to Sandy, this is not something that can be feasibly be achieved with the current setup*
-			- *The Volume block can only be attached to one instance at a time*
-			- *A type of file system like that will need to be built*
-	- Your new settlement loader would then need to download them from that file system. 
-	- When you are happy that the new settlement loader is working, then you can start downloading files onto an S3 Bucket instead of the file system.
-	- Can deploy on the same server as current Legacy Settlement to avoid IP whitelisting issues, or get another IP address whitelisted from DCI 
-## Todo
-- Confirm there is no issues with downloading the file twice from the DCI SFTP server 
+1. **Concurrent File-Sync and Legacy SFTP:** Run file-sync to download files to an S3 bucket while the current SFTP downloader remains active.
+	1. **Deployment Option 1 (Discouraged):** Deploy file-sync on the current Legacy Settlement EC2 instance, leveraging the existing IP whitelist.
+		- _Alternative:_ Consider replacing the current legacy SFTP downloader with file-sync for downloads to both the archive and S3.
+	2. **Deployment Option 2 (Recommended):** Request a new IP whitelist from DCI and deploy file-sync on ECS.
+
+*Our team will own and manage the file-sync implementation, so we can work closely on it's implementation.*
+
+**Key Constraint:** Direct download from the archive directory is not possible because:
+- It's a locally attached volume, restricting access to a single server.
+- It's not a network-accessible file system.
+
+**_High Level, it's basically this for file sync_**:  
+1. Create config repository like this [https://github.com/cko-card-processing/file-sync-jcn-configuration](https://github.com/cko-card-processing/file-sync-jcn-configuration)
+2. Use IAC to create ECS service like [https://github.com/cko-card-processing/file-sync/tree/main/iac/components/200-jcn-file-sync](https://github.com/cko-card-processing/file-sync/tree/main/iac/components/200-jcn-file-sync)
+3. Modify file-sync deployment to deploy a version of file-sync for DCI into ECS  [https://github.com/cko-card-processing/file-sync/blob/main/.github/workflows/main_branch.yml#L30](https://github.com/cko-card-processing/file-sync/blob/main/.github/workflows/main_branch.yml#L30) 
+4. Create Octopus deployment for DCI file-sync (Deployment of containers into ECS)
+5. Create Harness/Octopus deployment for DCI file-sync config (Move config file into S3 bucket so it ca be loaded into DCI file-sync and restart ECS)
