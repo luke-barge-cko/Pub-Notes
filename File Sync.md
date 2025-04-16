@@ -22,5 +22,5 @@
 1. Create config repository like this [https://github.com/cko-card-processing/file-sync-jcn-configuration](https://github.com/cko-card-processing/file-sync-jcn-configuration)
 2. Use IAC to create ECS service like [https://github.com/cko-card-processing/file-sync/tree/main/iac/components/200-jcn-file-sync](https://github.com/cko-card-processing/file-sync/tree/main/iac/components/200-jcn-file-sync)
 3. Modify file-sync deployment to deploy a version of file-sync for DCI into ECS  [https://github.com/cko-card-processing/file-sync/blob/main/.github/workflows/main_branch.yml#L30](https://github.com/cko-card-processing/file-sync/blob/main/.github/workflows/main_branch.yml#L30) 
-4. Create Octopus deployment for DCI file-sync (Deployment of containers into ECS)
-5. Create Harness/Octopus deployment for DCI file-sync config (Move config file into S3 bucket so it ca be loaded into DCI file-sync and restart ECS)
+4. Create Octopus deployment for DCI file-sync (Deployment of containers into ECS) like https://cp-octopus.mgmt.ckotech.co/app#/Spaces-1/projects/jcn-file-sync-configuration/deployments?groupBy=Channel
+5. Create Harness/Octopus deployment for DCI file-sync config (Move config file into S3 bucket so it ca be loaded into DCI file-sync and restart ECS) like https://cp-octopus.mgmt.ckotech.co/app#/Spaces-1/projects/jcn-file-sync/deployments?groupBy=Channel
